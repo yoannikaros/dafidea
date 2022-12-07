@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:dafidea/ui/update.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -23,9 +24,12 @@ class _InfiniteScrollPaginatorDemoState extends State<GetData> {
                 'Bearer 1fbcc0653b05027b134631f9addd6aa7b83e435a75eac0db06db98dd8779d9d2'
           });
       List responseList = json.decode(response.body);
+
       List<Post> postList = responseList
-          .map((data) => Post(data['name'], data['email']))
+          .map((data) =>
+              Post(data['id'], data['name'], data['email'], data['gender']))
           .toList();
+
       final isLastPage = postList.length < _numberOfPostsPerRequest;
       if (isLastPage) {
         _pagingController.appendLastPage(postList);
@@ -62,7 +66,7 @@ class _InfiniteScrollPaginatorDemoState extends State<GetData> {
           builderDelegate: PagedChildBuilderDelegate<Post>(
             itemBuilder: (context, item, index) => Padding(
               padding: const EdgeInsets.all(15.0),
-              child: PostItem(item.name, item.email),
+              child: PostItem(item.name, item.email, item.gender),
             ),
           ),
         ),
