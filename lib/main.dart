@@ -5,6 +5,7 @@ import 'package:dafidea/ui/intro.dart';
 import 'package:dafidea/ui/sign_in.dart';
 import 'package:dafidea/ui/sign_up.dart';
 import 'package:dafidea/ui/splash.dart';
+import 'package:dafidea/ui/update.dart';
 import 'package:flutter/material.dart';
 
 void main() {

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import '/shared/theme.dart';
 import '/ui/widget/buttons.dart';
@@ -7,7 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class UpdateItem extends StatefulWidget {
-  UpdateItem({required this.id});
+  UpdateItem({
+    required this.id,
+  });
   var id;
 
   @override
@@ -16,9 +19,7 @@ class UpdateItem extends StatefulWidget {
 
 class _UpdateItemState extends State<UpdateItem> {
   var name = TextEditingController();
-
   var email = TextEditingController();
-
   var gender = TextEditingController();
 
   @override
@@ -31,11 +32,12 @@ class _UpdateItemState extends State<UpdateItem> {
   //Http to get detail data
   Future _getData() async {
     try {
+      var yoan = widget.id;
       final response = await http.get(Uri.parse(
           //you have to take the ip address of your computer.
           //because using localhost will cause an error
           //get detail data with id
-          "https://gorest.co.in/public/v2/users/'${widget.id}'"), headers: {
+          "https://gorest.co.in/public/v2/users/$yoan"), headers: {
         'Authorization':
             'Bearer 1fbcc0653b05027b134631f9addd6aa7b83e435a75eac0db06db98dd8779d9d2'
       });
@@ -56,18 +58,14 @@ class _UpdateItemState extends State<UpdateItem> {
 
   Future _onUpdate(context) async {
     try {
-      return await http.post(
-        Uri.parse("https://gorest.co.in/public/v2/users"),
+      var admin = widget.id;
+      return await http.put(
+        Uri.parse("https://gorest.co.in/public/v2/users/$admin"),
         headers: {
           'Authorization':
               'Bearer 1fbcc0653b05027b134631f9addd6aa7b83e435a75eac0db06db98dd8779d9d2'
         },
-        body: {
-          "id": widget.id,
-          "name": name.text,
-          "email": email.text,
-          "gender": gender.text,
-        },
+        body: {"name": name.text, "email": email.text, "gender": gender.text},
       ).then((value) {
         //print message after insert to database
         //you can improve this message with alert dialog
@@ -137,19 +135,8 @@ class _UpdateItemState extends State<UpdateItem> {
                   controller: gender,
                 ),
 
-                const SizedBox(
-                  height: 8,
-                ),
-
-                Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      'Forgot Password',
-                      style: blueTextStyle,
-                    )),
-
                 SizedBox(
-                  height: 8,
+                  height: 20,
                 ),
 
                 CustomFilledButton(
@@ -161,15 +148,6 @@ class _UpdateItemState extends State<UpdateItem> {
               ],
             ),
           ),
-          const SizedBox(
-            height: 50,
-          ),
-          CustomTextButtom(
-            title: 'Create New Account',
-            onPressed: () {
-              Navigator.pushNamed(context, '/Sign-up');
-            },
-          )
         ],
       ),
     );

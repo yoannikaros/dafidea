@@ -1,5 +1,5 @@
 class Post {
-  final int id;
+  var id;
   final String name;
   final String email;
   final String gender;

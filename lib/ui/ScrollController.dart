@@ -1,11 +1,11 @@
 import 'dart:convert';
+import 'package:dafidea/shared/theme.dart';
 import 'package:dafidea/ui/update.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../model/post.dart';
-import './widget/post_item.dart';
 
 class GetData extends StatefulWidget {
   @override
@@ -31,6 +31,7 @@ class _InfiniteScrollPaginatorDemoState extends State<GetData> {
           .toList();
 
       final isLastPage = postList.length < _numberOfPostsPerRequest;
+
       if (isLastPage) {
         _pagingController.appendLastPage(postList);
       } else {
@@ -65,9 +66,16 @@ class _InfiniteScrollPaginatorDemoState extends State<GetData> {
           pagingController: _pagingController,
           builderDelegate: PagedChildBuilderDelegate<Post>(
             itemBuilder: (context, item, index) => Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: PostItem(item.name, item.email, item.gender),
-            ),
+                padding: const EdgeInsets.all(15.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => UpdateItem(id: item.id)));
+                  },
+                  child: Container(color: blueColor, child: Text(item.name)),
+                )),
           ),
         ),
       ),
