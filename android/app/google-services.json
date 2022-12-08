@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "354080483909",
+    "project_id": "test-case-magang-dafidea",
+    "storage_bucket": "test-case-magang-dafidea.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:354080483909:android:6fc42039ed191b57fa912c",
+        "android_client_info": {
+          "package_name": "com.dafidea.dafidea"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "354080483909-cr0n57nfksv648dvj5mmuutbm55ntd59.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjkscTK_e3_Mp3m5DrJQZ1CTV-ST7GfOM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "354080483909-cr0n57nfksv648dvj5mmuutbm55ntd59.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

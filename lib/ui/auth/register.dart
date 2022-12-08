@@ -1,10 +1,20 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '/shared/theme.dart';
 import '/ui/widget/buttons.dart';
 import '/ui/widget/form.dart';
 import 'package:flutter/material.dart';
 
-class SignInPage extends StatelessWidget {
-  const SignInPage({Key? key}) : super(key: key);
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({Key? key}) : super(key: key);
+
+  @override
+  State<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+  var email = TextEditingController();
+  var password = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +31,7 @@ class SignInPage extends StatelessWidget {
                 image: DecorationImage(
                     image: AssetImage('assets/img_logo_light.png'))),
           ),
-          Text('Sign In & \nGrow Your Finance',
+          Text('Register & \nGrow Your Midset',
               style:
                   blackTextStyle.copyWith(fontSize: 20, fontWeight: semiBold)),
           const SizedBox(
@@ -35,7 +45,10 @@ class SignInPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 //Email Input
-                CustomFormField(tittle: 'Email Address'),
+                CustomFormField(
+                  tittle: 'Email Address',
+                  controller: email,
+                ),
 
                 SizedBox(
                   height: 16,
@@ -45,26 +58,28 @@ class SignInPage extends StatelessWidget {
                 CustomFormField(
                   tittle: 'Password',
                   obscureText: true,
+                  controller: password,
                 ),
-
-                const SizedBox(
-                  height: 8,
-                ),
-
-                Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      'Forgot Password',
-                      style: blueTextStyle,
-                    )),
 
                 SizedBox(
-                  height: 8,
+                  height: 20,
                 ),
 
                 CustomFilledButton(
-                  title: 'Sign in',
-                  onPressed: () {},
+                  title: 'Register',
+                  onPressed: () async {
+                    if (FirebaseAuth.instance.currentUser == null) {
+                      try {
+                        await FirebaseAuth.instance
+                            .createUserWithEmailAndPassword(
+                                email: email.text, password: password.text);
+
+                        Navigator.pushNamed(context, '/main-page');
+                      } on FirebaseAuthException catch (e) {}
+                    } else {
+                      Navigator.pushNamed(context, '/signin');
+                    }
+                  },
                 ),
               ],
             ),
@@ -73,9 +88,9 @@ class SignInPage extends StatelessWidget {
             height: 50,
           ),
           CustomTextButtom(
-            title: 'Create New Account',
+            title: 'Login your account',
             onPressed: () {
-              Navigator.pushNamed(context, '/Sign-up');
+              Navigator.pushNamed(context, '/signin');
             },
           )
         ],

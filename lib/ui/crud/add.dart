@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../../shared/theme.dart';
-import './widget/buttons.dart';
-import './widget/form.dart';
+import '../widget/buttons.dart';
+import '../widget/form.dart';
 
 class AddPage extends StatefulWidget {
   const AddPage({Key? key}) : super(key: key);
@@ -13,6 +13,7 @@ class AddPage extends StatefulWidget {
   State<AddPage> createState() => _AddPageState();
 }
 
+//
 var user_id = TextEditingController();
 var title = TextEditingController();
 var body = TextEditingController();
@@ -25,19 +26,22 @@ class _AddPageState extends State<AddPage> {
     Future _onSubmit() async {
       try {
         return await http.post(
-          Uri.parse("https://gorest.co.in/public/v2/posts"),
+          Uri.parse("https://gorest.co.in/public/v2/users"),
           headers: {
             'Authorization':
                 'Bearer 1fbcc0653b05027b134631f9addd6aa7b83e435a75eac0db06db98dd8779d9d2'
           },
           body: {
-            "user_id": user_id.text,
-            "title": title.text,
-            "body": body.text
+            "name": user_id.text,
+            "email": title.text,
+            "gender": body.text,
+            "status": "active"
           },
         ).then((value) {
           var data = jsonDecode(value.body);
+
           print(data["message"]);
+          Navigator.pushNamed(context, '/main-page');
         });
       } catch (e) {
         print(e);
@@ -49,13 +53,8 @@ class _AddPageState extends State<AddPage> {
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         children: [
-          Container(
-            width: 155,
-            height: 50,
-            margin: const EdgeInsets.only(top: 100, bottom: 50),
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/img_logo_light.png'))),
+          const SizedBox(
+            height: 80,
           ),
           Text('Create your idea',
               style:
@@ -72,7 +71,7 @@ class _AddPageState extends State<AddPage> {
               children: [
                 //USer Id
                 CustomFormField(
-                  tittle: 'Userid',
+                  tittle: 'Full Name',
                   controller: user_id,
                 ),
 
@@ -81,7 +80,7 @@ class _AddPageState extends State<AddPage> {
                 ),
                 //Title
                 CustomFormField(
-                  tittle: 'title',
+                  tittle: 'Email',
                   controller: title,
                 ),
 
@@ -90,7 +89,7 @@ class _AddPageState extends State<AddPage> {
                 ),
                 //Title
                 CustomFormField(
-                  tittle: 'body',
+                  tittle: 'Gender',
                   controller: body,
                 ),
 
@@ -113,7 +112,7 @@ class _AddPageState extends State<AddPage> {
           CustomTextButtom(
             title: 'Back',
             onPressed: () {
-              Navigator.pushNamed(context, '/home-page');
+              Navigator.pushNamed(context, '/main-page');
             },
           )
         ],

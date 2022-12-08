@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dafidea/ui/widget/buttons.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '/shared/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -95,8 +96,9 @@ class _IntroPageState extends State<IntroPage> {
                           children: [
                             CustomFilledButton(
                               title: 'Get Started',
-                              onPressed: () {
-                                Navigator.pushNamed(context, '/add-page');
+                              onPressed: () async {
+                                await FirebaseAuth.instance.signOut();
+                                Navigator.pushNamed(context, '/register');
                               },
                             ),
                             const SizedBox(

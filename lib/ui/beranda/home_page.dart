@@ -1,19 +1,19 @@
 import 'dart:convert';
 import 'package:dafidea/shared/theme.dart';
-import 'package:dafidea/ui/update.dart';
+import 'package:dafidea/ui/crud/update.dart';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
-import '../model/post.dart';
+import '/model/post.dart';
 
-class GetData extends StatefulWidget {
+class HomePage extends StatefulWidget {
   @override
-  _InfiniteScrollPaginatorDemoState createState() =>
-      _InfiniteScrollPaginatorDemoState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _InfiniteScrollPaginatorDemoState extends State<GetData> {
+class _HomePageState extends State<HomePage> {
   Future<void> _fetchPage(int pageKey) async {
     try {
       final response = await get(
@@ -74,17 +74,49 @@ class _InfiniteScrollPaginatorDemoState extends State<GetData> {
                         MaterialPageRoute(
                             builder: (context) => UpdateItem(id: item.id)));
                   },
-                  child: Container(color: blueColor, child: Text(item.name)),
+                  child: Container(
+                    margin: const EdgeInsets.only(
+                      bottom: 18,
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                item.name,
+                                style: blackTextStyle.copyWith(
+                                  fontSize: 16,
+                                  fontWeight: medium,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 2,
+                              ),
+                              Text(
+                                item.email,
+                                style: greyTextStyle.copyWith(
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Text(
+                          item.gender,
+                          style: greyTextStyle.copyWith(
+                            fontSize: 12,
+                            fontWeight: medium,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 )),
           ),
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _pagingController.dispose();
-    super.dispose();
   }
 }
